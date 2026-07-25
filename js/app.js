@@ -1,18 +1,12 @@
+document.addEventListener("DOMContentLoaded", function () {
 
-// StudyGenius AI JavaScript
+    const menuBtn = document.getElementById("menu-btn");
+    const nav = document.getElementById("nav");
 
-console.log("StudyGenius AI Loaded!");
-
-const askButton = document.querySelector(".search-box button");
-const questionInput = document.querySelector(".search-box input");
-
-askButton.addEventListener("click", () => {
-    const question = questionInput.value.trim();
-
-    if(question === ""){
-        alert("Please enter a question.");
-        return;
+    if (menuBtn && nav) {
+        menuBtn.addEventListener("click", function () {
+            nav.classList.toggle("show");
+        });
     }
 
-    alert("AI feature coming soon!\n\nYou asked:\n" + question);
 });
