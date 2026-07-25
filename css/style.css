@@ -1048,3 +1048,47 @@ body{
     }
 
 }
+/* ==========================
+   FAQ
+========================== */
+
+.faq{
+    padding:100px 8%;
+    background:#f8fafc;
+}
+
+.faq h2{
+    text-align:center;
+    color:#4f46e5;
+    font-size:46px;
+    margin-bottom:15px;
+}
+
+.faq-item{
+    background:#fff;
+    padding:25px;
+    margin:20px auto;
+    max-width:900px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.faq-item h3{
+    color:#4f46e5;
+    margin-bottom:10px;
+}
+
+.faq-item p{
+    color:#555;
+    line-height:1.8;
+}
+
+@media(max-width:768px){
+    .faq{
+        padding:70px 5%;
+    }
+
+    .faq h2{
+        font-size:34px;
+    }
+}
