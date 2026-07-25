@@ -971,3 +971,80 @@ body{
     }
 
 }
+/* ==========================
+   FOOTER
+========================== */
+
+.footer{
+    background:linear-gradient(135deg,#111827,#312e81);
+    color:#fff;
+    padding:80px 8% 30px;
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:40px;
+    margin-bottom:40px;
+}
+
+.footer h3{
+    font-size:30px;
+    margin-bottom:15px;
+}
+
+.footer h4{
+    margin-bottom:18px;
+    color:#c7d2fe;
+}
+
+.footer p{
+    color:#d1d5db;
+    line-height:1.8;
+}
+
+.footer ul{
+    list-style:none;
+    padding:0;
+}
+
+.footer ul li{
+    margin-bottom:12px;
+}
+
+.footer ul li a{
+    text-decoration:none;
+    color:#d1d5db;
+    transition:.3s;
+}
+
+.footer ul li a:hover{
+    color:#ffffff;
+    padding-left:6px;
+}
+
+.footer hr{
+    border:none;
+    height:1px;
+    background:rgba(255,255,255,.15);
+    margin:30px 0;
+}
+
+.copyright{
+    text-align:center;
+    color:#cbd5e1;
+    font-size:15px;
+}
+
+@media(max-width:768px){
+
+    .footer{
+        padding:60px 5% 25px;
+        text-align:center;
+    }
+
+    .footer-grid{
+        gap:30px;
+    }
+
+}
