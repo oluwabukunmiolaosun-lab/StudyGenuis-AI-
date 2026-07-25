@@ -38,3 +38,30 @@ chatBox.scrollTop=chatBox.scrollHeight;
 });
 
 }
+// Image Solver Demo
+
+const imageUpload = document.getElementById("image-upload");
+const solveBtn = document.getElementById("solve-image");
+const imageResult = document.getElementById("image-result");
+
+if(imageUpload && solveBtn && imageResult){
+
+    solveBtn.addEventListener("click", function(){
+
+        if(imageUpload.files.length === 0){
+
+            imageResult.innerHTML =
+            "⚠️ Please choose an image first.";
+
+            return;
+
+        }
+
+        imageResult.innerHTML = `
+        ✅ <strong>Image received successfully!</strong><br><br>
+        🤖 AI image solving will be available after we connect Google Gemini AI.
+        `;
+
+    });
+
+}
