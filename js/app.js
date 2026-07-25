@@ -65,3 +65,27 @@ if(imageUpload && solveBtn && imageResult){
     });
 
 }
+// Smart Notes Generator Demo
+
+const notesBtn = document.getElementById("generate-notes");
+const notesTopic = document.getElementById("notes-topic");
+const notesResult = document.getElementById("notes-result");
+
+if (notesBtn && notesTopic && notesResult) {
+
+    notesBtn.addEventListener("click", function () {
+
+        const topic = notesTopic.value.trim();
+
+        if (topic === "") {
+            notesResult.innerHTML = "⚠️ Please enter a topic.";
+            return;
+        }
+
+        notesResult.innerHTML = `
+        <strong>📚 Topic:</strong> ${topic}<br><br>
+        ✅ AI-generated study notes will appear here after we connect Google Gemini AI.
+        `;
+    });
+
+}
