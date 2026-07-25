@@ -442,3 +442,14 @@ body{
 }
 
 }
+.image-solver{
+    background:linear-gradient(135deg,#eef2ff,#ffffff);
+}
+
+.image-solver .section-description{
+    color:#666;
+}
+
+.upload-card{
+    border:2px solid #e5e7eb;
+}
