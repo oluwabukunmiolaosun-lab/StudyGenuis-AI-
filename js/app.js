@@ -89,3 +89,33 @@ if (notesBtn && notesTopic && notesResult) {
     });
 
 }
+// AI Quiz Generator Demo
+
+const quizBtn = document.getElementById("generate-quiz");
+const quizSubject = document.getElementById("quiz-subject");
+const quizResult = document.getElementById("quiz-result");
+
+if (quizBtn && quizSubject && quizResult) {
+
+    quizBtn.addEventListener("click", function () {
+
+        const subject = quizSubject.value;
+
+        quizResult.innerHTML = `
+        <h3>🧠 ${subject} Quiz</h3>
+
+        <p><strong>1.</strong> Sample AI-generated question for ${subject}.</p>
+
+        <p>A. Option One</p>
+        <p>B. Option Two</p>
+        <p>C. Option Three</p>
+        <p>D. Option Four</p>
+
+        <br>
+
+        <p>🤖 Full AI-generated quizzes will be available after connecting Google Gemini AI.</p>
+        `;
+
+    });
+
+}
