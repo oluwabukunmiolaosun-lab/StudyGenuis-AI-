@@ -1,1 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile | StudyGenius AI</title>
 
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="container">
+        <a href="index.html" class="logo">
+            <span>📚 StudyGenius AI</span>
+        </a>
+
+        <nav class="nav">
+            <a href="index.html">Home</a>
+            <a href="profile.html">Profile</a>
+            <button id="logout-btn" class="login-btn">Logout</button>
+        </nav>
+    </div>
+</header>
+
+<section class="dashboard">
+
+    <div class="container">
+
+        <h2>👤 Student Profile</h2>
+
+        <div class="dashboard-card">
+
+            <h3>Name</h3>
+            <p id="profile-name">Loading...</p>
+
+            <h3>Email</h3>
+            <p id="profile-email">Loading...</p>
+
+            <h3>Member Since</h3>
+            <p id="profile-date">Loading...</p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script type="module" src="js/profile.js"></script>
+<script type="module" src="js/logout.js"></script>
+
+</body>
+</html>
