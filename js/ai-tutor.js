@@ -6,12 +6,11 @@ sendBtn.addEventListener("click", async () => {
 
     const question = input.value.trim();
 
-    if (question === "") {
+    if (!question) {
         alert("Please enter a question.");
         return;
     }
 
-    // Show user's message
     chatBox.innerHTML += `
         <div class="user-message">
             ${question}
@@ -20,7 +19,6 @@ sendBtn.addEventListener("click", async () => {
 
     input.value = "";
 
-    // Show thinking message
     chatBox.innerHTML += `
         <div class="ai-message" id="thinking">
             Thinking...
@@ -41,26 +39,47 @@ sendBtn.addEventListener("click", async () => {
             })
         });
 
+
+        if (!response.ok) {
+            throw new Error("API failed");
+        }
+
+
         const data = await response.json();
 
-        document.getElementById("thinking").remove();
+
+        const thinking = document.getElementById("thinking");
+
+        if (thinking) {
+            thinking.remove();
+        }
+
 
         chatBox.innerHTML += `
             <div class="ai-message">
-                ${data.reply}
+                ${data.reply || "No answer found."}
             </div>
         `;
+
 
     } catch (error) {
 
-        document.getElementById("thinking").remove();
+        const thinking = document.getElementById("thinking");
+
+        if (thinking) {
+            thinking.remove();
+        }
+
 
         chatBox.innerHTML += `
             <div class="ai-message">
-                Sorry, something went wrong.
+                Sorry, I cannot connect to the AI right now.
             </div>
         `;
+
+        console.log(error);
     }
+
 
     chatBox.scrollTop = chatBox.scrollHeight;
 
