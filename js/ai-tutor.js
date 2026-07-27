@@ -1,86 +1,48 @@
-const sendBtn = document.getElementById("send-question");
-const input = document.getElementById("user-question");
-const chatBox = document.getElementById("chat-box");
+const express = require("express");
+const app = express();
 
-sendBtn.addEventListener("click", async () => {
+app.use(express.json());
+app.use(express.static("public"));
 
-    const question = input.value.trim();
+app.post("/api/gemini", async (req, res) => {
 
-    if (!question) {
-        alert("Please enter a question.");
-        return;
-    }
+  const { message } = req.body;
 
-    chatBox.innerHTML += `
-        <div class="user-message">
-            ${question}
-        </div>
-    `;
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      {
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          contents:[
+            {
+              parts:[
+                {text:message}
+              ]
+            }
+          ]
+        })
+      }
+    );
 
-    input.value = "";
+    const data = await response.json();
 
-    chatBox.innerHTML += `
-        <div class="ai-message" id="thinking">
-            Thinking...
-        </div>
-    `;
+    res.json({
+      reply:data.candidates[0].content.parts[0].text
+    });
 
-    chatBox.scrollTop = chatBox.scrollHeight;
+  } catch(error){
+    res.status(500).json({
+      error:error.message
+    });
+  }
 
-    try {
-
-        const response = await fetch("/api/gemini", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                message: question
-            })
-        });
-
-
-        if (!response.ok) {
-            throw new Error("API failed");
-        }
+});
 
 
-        const data = await response.json();
-
-
-        const thinking = document.getElementById("thinking");
-
-        if (thinking) {
-            thinking.remove();
-        }
-
-
-        chatBox.innerHTML += `
-            <div class="ai-message">
-                ${data.reply || "No answer found."}
-            </div>
-        `;
-
-
-    } catch (error) {
-
-        const thinking = document.getElementById("thinking");
-
-        if (thinking) {
-            thinking.remove();
-        }
-
-
-        chatBox.innerHTML += `
-            <div class="ai-message">
-                Sorry, I cannot connect to the AI right now.
-            </div>
-        `;
-
-        console.log(error);
-    }
-
-
-    chatBox.scrollTop = chatBox.scrollHeight;
-
+app.listen(3000, ()=>{
+ console.log("Server running");
 });
