@@ -30,10 +30,15 @@ app.post("/api/gemini", async (req, res) => {
 
     const data = await response.json();
 
-    res.json({
-      reply:data.candidates[0].content.parts[0].text
-    });
+    if (!data.candidates) {
+  return res.status(500).json({
+    error: data.error?.message || "No response from Gemini"
+  });
+}
 
+res.json({
+  reply: data.candidates[0].content.parts[0].text
+});
   } catch(error){
     res.status(500).json({
       error:error.message
