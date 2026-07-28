@@ -1,55 +1,115 @@
-const express = require("express");
-const app = express();
+const sendBtn = document.getElementById("send-question");
+const input = document.getElementById("user-question");
+const chatBox = document.getElementById("chat-box");
 
-app.use(express.json());
-app.use(express.static("public"));
+sendBtn.addEventListener("click", askAI);
 
-app.post("/api/gemini", async (req, res) => {
+input.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        askAI();
+    }
+});
 
-  const { message } = req.body;
 
-  try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-      {
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-          contents:[
-            {
-              parts:[
-                {text:message}
-              ]
-            }
-          ]
-        })
-      }
-    );
+async function askAI() {
 
-    const data = await response.json();
+    const question = input.value.trim();
 
-    if (!data.candidates) {
-  return res.status(500).json({
-    error: data.error?.message || "No response from Gemini"
-  });
+    if (question === "") {
+        alert("Please enter a question.");
+        return;
+    }
+
+
+    // Show user question
+    chatBox.innerHTML += `
+        <div class="user-message">
+            <strong>You:</strong><br>
+            ${question}
+        </div>
+    `;
+
+
+    input.value = "";
+
+
+    // Show loading message
+    const loadingId = "loading-" + Date.now();
+
+    chatBox.innerHTML += `
+        <div class="ai-message" id="${loadingId}">
+            <strong>StudyGenius AI:</strong><br>
+            Thinking...
+        </div>
+    `;
+
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+
+    try {
+
+        const response = await fetch("/api/gemini", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                message: question
+            })
+
+        });
+
+
+        const data = await response.json();
+
+
+        document.getElementById(loadingId).remove();
+
+
+        if (data.reply) {
+
+            chatBox.innerHTML += `
+                <div class="ai-message">
+                    <strong>StudyGenius AI:</strong><br>
+                    ${data.reply}
+                </div>
+            `;
+
+        } else {
+
+            chatBox.innerHTML += `
+                <div class="ai-message">
+                    <strong>StudyGenius AI:</strong><br>
+                    Sorry, I could not generate an answer.
+                </div>
+            `;
+
+        }
+
+
+    } catch (error) {
+
+
+        document.getElementById(loadingId)?.remove();
+
+
+        chatBox.innerHTML += `
+            <div class="ai-message">
+                <strong>StudyGenius AI:</strong><br>
+                Unable to connect to the AI server.
+            </div>
+        `;
+
+
+        console.log(error);
+
+    }
+
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+
 }
-
-res.json({
-  reply: data.candidates[0].content.parts[0].text
-});
-  } catch(error){
-    res.status(500).json({
-      error:error.message
-    });
-  }
-
-});
-
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, ()=>{
- console.log(`Server running on port ${PORT}`);
-});
