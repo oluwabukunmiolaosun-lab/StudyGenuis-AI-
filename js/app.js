@@ -31,7 +31,7 @@ if (sendBtn && userInput && chatBox) {
 
     try {
 
-      const response = await fetch("/api/gemini", {
+      const response = await fetch("https://studygenuis-ai.onrender.com/api/gemini", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
