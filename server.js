@@ -37,13 +37,17 @@ app.post("/api/gemini", async (req, res) => {
 
     const data = await response.json();
 
+console.log("Gemini response:", JSON.stringify(data, null, 2));
 
-    const reply =
-      data.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "No response received.";
+if (!response.ok) {
+  return res.status(response.status).json(data);
+}
 
+const reply =
+  data.candidates?.[0]?.content?.parts?.[0]?.text ||
+  "No response received.";
 
-    res.json({ reply });
+res.json({ reply });
 
 
   } catch (error) {
