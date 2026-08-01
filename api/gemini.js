@@ -5,27 +5,37 @@ export default async function handler(req, res) {
 
   const { message } = req.body;
 
+  app.post("/api/gemini", async (req, res) => {
+
+  const { message } = req.body;
+
+  console.log("Request received");
+  console.log("API Key exists:", !!process.env.GEMINI_API_KEY);
+
   try {
+
     const response = await fetch(
-  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      contents: [
-        {
-          parts: [
-            {
-              text: message,
-            },
-          ],
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
         },
-      ],
-    }),
-  }
-);
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: message
+                }
+              ]
+            }
+          ]
+        })
+      }
+    );
+
+    // rest of your code...
     const data = await response.json();
 
     const reply =
