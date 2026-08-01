@@ -9,33 +9,55 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-});
-// AI Tutor Demo
-
 const sendBtn = document.getElementById("send-question");
 const userInput = document.getElementById("user-question");
 const chatBox = document.getElementById("chat-box");
 
-if(sendBtn && userInput && chatBox){
+if (sendBtn && userInput && chatBox) {
 
-sendBtn.addEventListener("click",function(){
+  sendBtn.addEventListener("click", async function () {
 
-const text=userInput.value.trim();
+    const text = userInput.value.trim();
 
-if(text==="") return;
+    if (text === "") return;
 
-chatBox.innerHTML+=`
-<div class="user-message">${text}</div>
-<div class="ai-message">
-🤖 AI responses will be available when we connect Google Gemini API.
-</div>
-`;
+    chatBox.innerHTML += `<div class="user-message">${text}</div>`;
 
-userInput.value="";
+    userInput.value = "";
 
-chatBox.scrollTop=chatBox.scrollHeight;
+    chatBox.innerHTML += `<div class="ai-message" id="thinking">Thinking...</div>`;
 
-});
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try {
+
+      const response = await fetch("/api/gemini", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: text
+        })
+      });
+
+      const data = await response.json();
+
+      document.getElementById("thinking").remove();
+
+      chatBox.innerHTML += `<div class="ai-message">${data.reply}</div>`;
+
+    } catch (error) {
+
+      document.getElementById("thinking").remove();
+
+      chatBox.innerHTML += `<div class="ai-message">Something went wrong.</div>`;
+
+    }
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+  });
 
 }
 // Image Solver Demo
