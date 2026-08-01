@@ -49,19 +49,18 @@ async function askAI() {
 
     try {
 
-        const response = await fetch("/api/gemini", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-                message: question
-            })
-
-        });
+        const response = await fetch(
+  "https://studygenuis-ai.onrender.com/api/gemini",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      message: question
+    })
+  }
+);
 
 
         const data = await response.json();
