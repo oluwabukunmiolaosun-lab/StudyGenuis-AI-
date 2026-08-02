@@ -1,3 +1,10 @@
+import { auth, db } from "./firebase.js";
+
+import {
+  doc,
+  updateDoc,
+  increment
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 document.addEventListener("DOMContentLoaded", function () {
 
     const menuBtn = document.getElementById("menu-btn");
@@ -85,6 +92,18 @@ if (data.premium) {
 }
 questionsAsked++;
 localStorage.setItem("questionsAsked", questionsAsked);
+
+const user = auth.currentUser;
+
+if (user) {
+
+    const userRef = doc(db, "users", user.uid);
+
+    await updateDoc(userRef, {
+        questionsUsed: increment(1)
+    });
+
+}
     } catch (error) {
 
       document.getElementById("thinking").remove();
