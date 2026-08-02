@@ -65,9 +65,92 @@ document.addEventListener("DOMContentLoaded", () => {
 
       chatBox.scrollTop = chatBox.scrollHeight;
 
-      // Firestore question limit and AI request
-      // will be added in Part 2
+const userRef = doc(db, "users", currentUser.uid);
+const userSnap = await getDoc(userRef);
 
+if (!userSnap.exists()) {
+    document.getElementById("thinking").remove();
+
+    chatBox.innerHTML += `
+    <div class="ai-message">
+        User profile not found.
+    </div>
+    `;
+
+    return;
+}
+
+const userData = userSnap.data();
+
+if (!userData.isPremium && userData.questionsUsed >= 10) {
+
+    document.getElementById("thinking").remove();
+
+    chatBox.innerHTML += `
+    <div class="ai-message">
+        🚀 You have reached your free limit of 10 questions.
+        <br><br>
+
+        <a href="https://paystack.shop/pay/khkeydf4d0"
+           target="_blank"
+           class="premium-btn">
+           Upgrade to Premium
+        </a>
+
+    </div>
+    `;
+
+    return;
+}
+
+try {
+
+    const response = await fetch(
+        "https://studygenuis-ai.onrender.com/api/gemini",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                message: text
+            })
+        }
+    );
+
+    const data = await response.json();
+
+    document.getElementById("thinking").remove();
+
+    chatBox.innerHTML += `
+    <div class="ai-message">
+        ${data.reply}
+    </div>
+    `;
+
+    if (!userData.isPremium) {
+
+        await updateDoc(userRef, {
+            questionsUsed: increment(1)
+        });
+
+    }
+
+} catch (error) {
+
+    document.getElementById("thinking").remove();
+
+    chatBox.innerHTML += `
+    <div class="ai-message">
+        Something went wrong.
+    </div>
+    `;
+
+    console.log(error);
+
+}
+
+chatBox.scrollTop = chatBox.scrollHeight;
     });
 
   }
