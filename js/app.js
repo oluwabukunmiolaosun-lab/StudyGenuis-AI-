@@ -43,9 +43,31 @@ if (sendBtn && userInput && chatBox) {
 
       const data = await response.json();
 
-      document.getElementById("thinking").remove();
+document.getElementById("thinking").remove();
 
-      chatBox.innerHTML += `<div class="ai-message">${data.reply}</div>`;
+if (data.premium) {
+
+    chatBox.innerHTML += `
+    <div class="ai-message">
+        ${data.reply}
+        <br><br>
+        <a href="https://paystack.shop/pay/khkeydf4d0"
+           target="_blank"
+           class="premium-btn">
+           🚀 Upgrade to Premium
+        </a>
+    </div>
+    `;
+
+} else {
+
+    chatBox.innerHTML += `
+    <div class="ai-message">
+        ${data.reply}
+    </div>
+    `;
+
+}
 
     } catch (error) {
 
