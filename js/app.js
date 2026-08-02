@@ -3,7 +3,8 @@ import { auth, db } from "./firebase.js";
 import {
   doc,
   updateDoc,
-  increment
+  increment,
+  getDoc
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -98,7 +99,9 @@ const user = auth.currentUser;
 if (user) {
 
     const userRef = doc(db, "users", user.uid);
+const snap = await getDoc(userRef);
 
+console.log(snap.data());
     await updateDoc(userRef, {
         questionsUsed: increment(1)
     });
