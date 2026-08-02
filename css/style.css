@@ -1092,3 +1092,17 @@ body{
         font-size:34px;
     }
 }
+.premium-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 18px;
+    background: #6a3df0;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.premium-btn:hover {
+    background: #5330d6;
+}
