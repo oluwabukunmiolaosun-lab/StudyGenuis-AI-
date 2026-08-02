@@ -8,56 +8,42 @@ app.use(express.static("."));
 
 
 app.post("/api/gemini", async (req, res) => {
-
   const { message } = req.body;
 
   try {
-
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text: message
-                }
-              ]
-            }
-          ]
-        })
-      }
-    );
-
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "openai/gpt-4.1-mini",
+        messages: [
+          {
+            role: "user",
+            content: message
+          }
+        ]
+      })
+    });
 
     const data = await response.json();
 
-console.log("Gemini response:", JSON.stringify(data, null, 2));
+    console.log(data);
 
-if (!response.ok) {
-  return res.status(response.status).json(data);
-}
+    const reply =
+      data.choices?.[0]?.message?.content ||
+      "No response received.";
 
-const reply =
-  data.candidates?.[0]?.content?.parts?.[0]?.text ||
-  "No response received.";
-
-res.json({ reply });
-
+    res.json({ reply });
 
   } catch (error) {
-
+    console.error(error);
     res.status(500).json({
       error: error.message
     });
-
   }
-
 });
 
 
