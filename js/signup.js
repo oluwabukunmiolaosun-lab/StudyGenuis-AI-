@@ -40,10 +40,12 @@ signupBtn.addEventListener("click", async () => {
         const user = userCredential.user;
 
         await setDoc(doc(db, "users", user.uid), {
-            name: fullname,
-            email: email,
-            createdAt: serverTimestamp()
-        });
+    name: fullname,
+    email: email,
+    createdAt: serverTimestamp(),
+    questionsUsed: 0,
+    isPremium: false
+});
 
         alert("Account created successfully!");
 
