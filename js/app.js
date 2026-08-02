@@ -12,16 +12,31 @@ document.addEventListener("DOMContentLoaded", function () {
 const sendBtn = document.getElementById("send-question");
 const userInput = document.getElementById("user-question");
 const chatBox = document.getElementById("chat-box");
+    
+const DAILY_LIMIT = 10;
 
+let questionsAsked = Number(localStorage.getItem("questionsAsked")) || 0;
+    
 if (sendBtn && userInput && chatBox) {
 
   sendBtn.addEventListener("click", async function () {
 
     const text = userInput.value.trim();
 
-    if (text === "") return;
+if (text === "") return;
 
-    chatBox.innerHTML += `<div class="user-message">${text}</div>`;
+if (questionsAsked >= DAILY_LIMIT) {
+    chatBox.innerHTML += `
+    <div class="ai-message">
+        🚀 You have reached your free limit of 10 questions.<br><br>
+        <a href="https://paystack.shop/pay/khkeydf4d0" target="_blank" class="premium-btn">
+            Upgrade to Premium
+        </a>
+    </div>`;
+    return;
+}
+
+chatBox.innerHTML += `<div class="user-message">${text}</div>`;
 
     userInput.value = "";
 
@@ -68,7 +83,8 @@ if (data.premium) {
     `;
 
 }
-
+questionsAsked++;
+localStorage.setItem("questionsAsked", questionsAsked);
     } catch (error) {
 
       document.getElementById("thinking").remove();
