@@ -133,9 +133,11 @@ try {
         await updateDoc(userRef, {
             questionsUsed: increment(1)
         });
-
+console.log("Updating Firestore for:", currentUser.uid);
+console.log("Current questions:", userData.questionsUsed);
+      console.log("Firestore updated successfully");
     }
-
+  
 } catch (error) {
 
     document.getElementById("thinking").remove();
