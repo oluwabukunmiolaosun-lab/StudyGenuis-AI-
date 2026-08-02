@@ -18,13 +18,16 @@ app.post("/api/gemini", async (req, res) => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "openai/gpt-4.1-mini",
-        messages: [
-          {
-            role: "user",
-            content: message
-          }
-        ]
+  model: "openai/gpt-4.1-mini",
+  messages: [
+    {
+      role: "user",
+      content: message
+    }
+  ],
+  max_tokens: 1000
+})
+        
       })
     });
 
