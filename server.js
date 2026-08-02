@@ -23,19 +23,25 @@ app.post("/api/gemini", async (req, res) => {
             content: message
           }
         ],
-        max_tokens: 500
+        max_tokens: 300
       })
     });
 
     const data = await response.json();
+// If OpenRouter returns an error
+if (data.error) {
+  return res.json({
+    premium: true,
+    reply:
+      "🚀 Free AI questions are currently unavailable. Upgrade to StudyGenius AI Premium for unlimited AI answers and priority access."
+  });
+}
 
-    console.log(data);
+const reply =
+  data.choices?.[0]?.message?.content ||
+  "No response received.";
 
-    const reply =
-      data.choices?.[0]?.message?.content ||
-      "No response received.";
-
-    res.json({ reply });
+res.json({ reply });
 
   } catch (error) {
     console.error(error);
