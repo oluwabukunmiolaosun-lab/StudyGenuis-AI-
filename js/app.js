@@ -96,9 +96,14 @@ localStorage.setItem("questionsAsked", questionsAsked);
 
 const user = auth.currentUser;
 
-if (user) {
+if (!user) {
+    alert("No user is logged in.");
+    return;
+}
 
-    const userRef = doc(db, "users", user.uid);
+alert("Logged in UID: " + user.uid);
+
+const userRef = doc(db, "users", user.uid);
 const snap = await getDoc(userRef);
 
 console.log(snap.data());
