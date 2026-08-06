@@ -59,9 +59,12 @@ chatBox.innerHTML += `<div class="user-message">${text}</div>`;
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          message: text
-        })
+        const user = auth.currentUser;
+
+body: JSON.stringify({
+  message: text,
+  uid: user.uid
+})
       });
 
       const data = await response.json();
