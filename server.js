@@ -1,15 +1,23 @@
 const express = require("express");
-const admin = require("firebase-admin");
+const {
+  initializeApp,
+  cert
+} = require("firebase-admin/app");
+
+const {
+  getFirestore,
+  FieldValue
+} = require("firebase-admin/firestore");
 
 const serviceAccount = JSON.parse(
   process.env.FIREBASE_SERVICE_ACCOUNT
 );
-console.log(admin);
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+
+initializeApp({
+  credential: cert(serviceAccount)
 });
 
-const db = admin.firestore();
+const db = getFirestore();
 const app = express();
 
 app.use(express.json());
