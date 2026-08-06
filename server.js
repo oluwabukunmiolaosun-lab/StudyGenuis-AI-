@@ -76,6 +76,12 @@ const reply =
   data.choices?.[0]?.message?.content ||
   "No response received.";
 
+if (!userData.isPremium) {
+  await userRef.update({
+    questionsUsed: admin.firestore.FieldValue.increment(1)
+  });
+}
+
 res.json({ reply });
 
   } catch (error) {
