@@ -54,18 +54,18 @@ chatBox.innerHTML += `<div class="user-message">${text}</div>`;
 
     try {
 
-      const response = await fetch("https://studygenuis-ai.onrender.com/api/gemini", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        const user = auth.currentUser;
+      const user = auth.currentUser;
 
-body: JSON.stringify({
-  message: text,
-  uid: user.uid
-})
-      });
+const response = await fetch("https://studygenuis-ai.onrender.com/api/gemini", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    message: text,
+    uid: user.uid
+  })
+});
 
       const data = await response.json();
 
@@ -96,15 +96,6 @@ if (data.premium) {
 }
 questionsAsked++;
 localStorage.setItem("questionsAsked", questionsAsked);
-
-const user = auth.currentUser;
-
-if (!user) {
-    alert("No user is logged in.");
-    return;
-}
-
-alert("Logged in UID: " + user.uid);
 
 const userRef = doc(db, "users", user.uid);
 const snap = await getDoc(userRef);
