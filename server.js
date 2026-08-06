@@ -86,7 +86,7 @@ const reply =
 
 if (!userData.isPremium) {
   await userRef.update({
-    questionsUsed: admin.firestore.FieldValue.increment(1)
+    questionsUsed: FieldValue.increment(1)
   });
 }
 
