@@ -16,7 +16,32 @@ app.use(express.json());
 app.use(express.static("."));
 
 app.post("/api/gemini", async (req, res) => {
-  const { message } = req.body;
+  
+const { message, uid } = req.body;
+  
+  if (!uid) {
+  return res.status(401).json({
+    reply: "Please log in first."
+  });
+}
+
+const userRef = db.collection("users").doc(uid);
+const userSnap = await userRef.get();
+
+if (!userSnap.exists) {
+  return res.status(404).json({
+    reply: "User not found."
+  });
+}
+
+const userData = userSnap.data();
+
+if (!userData.isPremium && userData.questionsUsed >= 10) {
+  return res.json({
+    premium: true,
+    reply: "🚀 You have reached your free limit of 10 questions. Upgrade to Premium to continue."
+  });
+}
 
   try {
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
