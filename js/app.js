@@ -56,15 +56,20 @@ chatBox.innerHTML += `<div class="user-message">${text}</div>`;
 
       const user = auth.currentUser;
 
+if (!user) {
+    alert("Please log in first.");
+    return;
+}
+
 const response = await fetch("https://studygenuis-ai.onrender.com/api/gemini", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    message: text,
-    uid: user.uid
-  })
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        message: text,
+        uid: user.uid
+    })
 });
       const data = await response.json();
 
