@@ -66,7 +66,6 @@ const response = await fetch("https://studygenuis-ai.onrender.com/api/gemini", {
     uid: user.uid
   })
 });
-
       const data = await response.json();
 
 document.getElementById("thinking").remove();
