@@ -54,24 +54,26 @@ chatBox.innerHTML += `<div class="user-message">${text}</div>`;
 
     try {
 
-      const user = auth.currentUser;
+    const user = auth.currentUser;
 
-if (!user) {
-    alert("Please log in first.");
-    return;
-}
+    if (!user) {
+        document.getElementById("thinking").remove();
+        alert("Please log in first.");
+        return;
+    }
 
-const response = await fetch("https://studygenuis-ai.onrender.com/api/gemini", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        message: text,
-        uid: user.uid
-    })
-});
-      const data = await response.json();
+    const response = await fetch("https://studygenuis-ai.onrender.com/api/gemini", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            message: text,
+            uid: user.uid
+        })
+    });
+
+    const data = await response.json();
 
 document.getElementById("thinking").remove();
 
