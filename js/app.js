@@ -9,6 +9,18 @@ import {
 
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
+let currentUser = null;
+
+onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+
+    if (user) {
+        console.log("User logged in:", user.uid);
+    } else {
+        console.log("No user logged in");
+    }
+});
+
 document.addEventListener("DOMContentLoaded", function () {
     const menuBtn = document.getElementById("menu-btn");
     const nav = document.getElementById("nav");
@@ -56,13 +68,13 @@ chatBox.innerHTML += `<div class="user-message">${text}</div>`;
 
     try {
 
-    const user = auth.currentUser;
+   const user = currentUser;
 
-    if (!user) {
-        document.getElementById("thinking").remove();
-        alert("Please log in first.");
-        return;
-    }
+if (!user) {
+    document.getElementById("thinking").remove();
+    alert("Please log in first.");
+    return;
+}
 
     const response = await fetch("https://studygenuis-ai.onrender.com/api/gemini", {
         method: "POST",
